@@ -8,6 +8,7 @@ import (
 	"gitlab.justlab.xyz/alertflow-public/runner/pkg/flows"
 	"gitlab.justlab.xyz/alertflow-public/runner/pkg/models"
 
+	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -22,7 +23,7 @@ func (p *CollectFlowDataPlugin) Init() models.Plugin {
 	}
 }
 
-func (p *CollectFlowDataPlugin) Details() models.ActionDetails {
+func (p *CollectFlowDataPlugin) Details() models.PluginDetails {
 	params := []models.Param{
 		{
 			Key:         "FlowID",
@@ -38,15 +39,17 @@ func (p *CollectFlowDataPlugin) Details() models.ActionDetails {
 		log.Error(err)
 	}
 
-	return models.ActionDetails{
-		Name:        "Collect Flow Data",
-		Description: "Collects Flow data from AlertFlow",
-		Icon:        "solar:book-bookmark-broken",
-		Type:        "collect_flow_data",
-		Category:    "Data",
-		Function:    p.Execute,
-		IsHidden:    true,
-		Params:      json.RawMessage(paramsJSON),
+	return models.PluginDetails{
+		Action: models.ActionDetails{
+			Name:        "Collect Flow Data",
+			Description: "Collects Flow data from AlertFlow",
+			Icon:        "solar:book-bookmark-broken",
+			Type:        "collect_flow_data",
+			Category:    "Data",
+			Function:    p.Execute,
+			IsHidden:    true,
+			Params:      json.RawMessage(paramsJSON),
+		},
 	}
 }
 
@@ -105,5 +108,7 @@ func (p *CollectFlowDataPlugin) Execute(execution models.Execution, flow models.
 
 	return map[string]interface{}{"flow": flow}, true, false, false, false
 }
+
+func (p *CollectFlowDataPlugin) Handle(context *gin.Context) {}
 
 var Plugin CollectFlowDataPlugin
