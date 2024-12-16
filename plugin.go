@@ -18,7 +18,7 @@ func (p *CollectFlowDataPlugin) Init() models.Plugin {
 	return models.Plugin{
 		Name:    "Collect Flow Data",
 		Type:    "action",
-		Version: "1.0.1",
+		Version: "1.0.4",
 		Creator: "JustNZ",
 	}
 }
